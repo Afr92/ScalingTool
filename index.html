@@ -50,15 +50,16 @@
 </head>
 <body>
   <main class="card" role="main" aria-labelledby="title">
-    <h1 id="title">ScalingTool</h1>
+    <h1 id="title">Scaling Tool</h1>
     <p class="sub">Real-life scaled dimensions from X-rays. Runs 100% locally in your browser.</p>
+    <p class="byline"><em>By Amed for Dr. Giotikas</em></p>
 
     <form id="calc-form" novalidate>
       <div class="grid" aria-describedby="helper">
 
         <!-- Field 1: Select original nail diameter -->
         <div class="row">
-          <label for="f1">Select original nail diameter (in millimeters)</label>
+          <label for="f1">Original nail diameter (in millimeters)</label>
           <select id="f1" name="f1">
             <option value="10.7" selected>10.7</option>
             <option value="12.5">12.5</option>
@@ -67,19 +68,19 @@
 
         <!-- Field 2: XRays nail diameter -->
         <div class="row">
-          <label for="f2">Input XRays nail diameter (in millimeters)</label>
+          <label for="f2">X-rays nail diameter (in millimeters)</label>
           <input id="f2" name="f2" type="number" inputmode="decimal" step="0.01" min="0.01" max="100" placeholder="e.g., 23.45" required />
         </div>
 
         <!-- Field 3: Distraction to be scaled -->
         <div class="row">
-          <label for="f3">Input distraction to be scaled (in millimeters)</label>
+          <label for="f3">X-rays distraction to be scaled (in millimeters)</label>
           <input id="f3" name="f3" type="number" inputmode="decimal" step="0.01" min="0.01" max="500" placeholder="e.g., 120.00" required />
         </div>
 
         <!-- Field 4: Scaling factor for final result -->
         <div class="row">
-          <label for="f4">Select scaling factor for final result (in millimeters)</label>
+          <label for="f4">Scaling factor for final result (in millimeters)</label>
           <select id="f4" name="f4">
             <option value="0">0</option>
             <option value="1">1</option>
@@ -89,7 +90,7 @@
       </div>
 
       <div class="actions">
-        <button type="button" class="primary" id="btn-calc">Calculate</button>
+        <button type="button" class="primary" id="btn-calc">CALCULATE</button>
         <button type="reset" id="btn-reset" title="Clear all inputs">Clear</button>
         <button type="button" id="btn-copy" title="Copy result">Copy Result</button>
         <button type="button" id="btn-link" title="Share pre-filled link">Share Link</button>
@@ -102,7 +103,7 @@
       </div>
 
       <p id="helper" class="footer">
-        <strong>Note:</strong> Formula: <code>Result = (Field1 / Field2) * Field3 - Field4</code>. Values rounded to 2 decimals.
+          <strong>Disclaimer:</strong> This tool is for informational purposes only and does not replace clinical judgment.
       </p>
     </form>
   </main>

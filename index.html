@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Scaling Tool</title>
-  <meta name="description" content="Real-life scaled dimensions from X-rays. Runs 100% locally in your browser." />
+  <title>Scaling Tool — Real-life scaled dimensions from X-rays</title>
+  <meta name="description" content="Calculate scaled dimensions from X-rays. Runs locally. No data is sent anywhere." />
   <style>
     :root {
       --bg:#0f172a; --card:#111827; --text:#e5e7eb; --muted:#9ca3af; --accent:#22c55e; --danger:#ef4444; --focus:#60a5fa;
@@ -16,13 +16,12 @@
       display:flex; align-items:center; justify-content:center; padding:24px;
     }
     .card{
-      width:min(680px, 100%); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      width:min(720px, 100%); background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.35);
       backdrop-filter: blur(6px);
     }
-    h1{margin:0 0 8px; font-size:1.9rem; letter-spacing:.2px} /* Larger title font */
-    p.sub{margin:0 0 6px; color:var(--muted); font-size:.95rem; font-style:italic}
-    p.byline{margin:0 0 20px; color:var(--muted); font-size:.95rem; font-style:italic}
+    h1{margin:0 0 8px; font-size:1.4rem}
+    p.sub{margin:0 0 20px; color:var(--muted); font-size:.95rem}
     .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
     @media (max-width:640px){ .grid{grid-template-columns:1fr} }
     label{font-size:.9rem; color:var(--muted); display:block; margin:0 0 6px}
@@ -37,11 +36,7 @@
       cursor:pointer; border:1px solid rgba(255,255,255,.14); background:#101426; color:var(--text);
       padding:10px 14px; border-radius:10px; font-weight:600; transition:.15s transform,.15s background;
     }
-    /* Bigger CALCULATE button and all caps */
-    button.primary{
-      background:linear-gradient(135deg, #16a34a, #22c55e); border:none; color:#052e16;
-      padding:12px 18px; font-size:1rem; letter-spacing:.3px;
-    }
+    button.primary{ background:linear-gradient(135deg, #16a34a, #22c55e); border:none; color:#052e16 }
     button:hover{ transform: translateY(-1px) }
     .out{
       margin-top:18px; padding:14px; border-radius:12px; background:#0a122a; border:1px solid rgba(255,255,255,.08)
@@ -55,39 +50,46 @@
 </head>
 <body>
   <main class="card" role="main" aria-labelledby="title">
-    <h1 id="title">Scaling Tool</h1>
+    <h1 id="title">ScalingTool</h1>
     <p class="sub">Real-life scaled dimensions from X-rays. Runs 100% locally in your browser.</p>
-    <p class="byline"><em>By Amed for Dr. Giotikas</em></p>
 
     <form id="calc-form" novalidate>
       <div class="grid" aria-describedby="helper">
-        <!-- Field 1 -->
+
+        <!-- Field 1: Select original nail diameter -->
         <div class="row">
-          <label for="in1">Original nail diameter (in millimeters)</label>
-          <input id="in1" name="in1" type="number" inputmode="decimal" step="any" required placeholder="e.g., 10" />
+          <label for="f1">Select original nail diameter (in millimeters)</label>
+          <select id="f1" name="f1">
+            <option value="10.7" selected>10.7</option>
+            <option value="12.5">12.5</option>
+          </select>
         </div>
 
-        <!-- Field 2 -->
+        <!-- Field 2: XRays nail diameter -->
         <div class="row">
-          <label for="in2">X-rays nail diameter (in millimeters)</label>
-          <input id="in2" name="in2" type="number" inputmode="decimal" step="any" required placeholder="e.g., 25" />
+          <label for="f2">Input XRays nail diameter (in millimeters)</label>
+          <input id="f2" name="f2" type="number" inputmode="decimal" step="0.01" min="0.01" max="100" placeholder="e.g., 23.45" required />
         </div>
 
-        <!-- Field 3 -->
+        <!-- Field 3: Distraction to be scaled -->
         <div class="row">
-          <label for="in3">X-rays distraction to be scaled (in millimeters)</label>
-          <input id="in3" name="in3" type="number" inputmode="decimal" step="any" required placeholder="e.g., 8" />
+          <label for="f3">Input distraction to be scaled (in millimeters)</label>
+          <input id="f3" name="f3" type="number" inputmode="decimal" step="0.01" min="0.01" max="500" placeholder="e.g., 120.00" required />
         </div>
 
-        <!-- Field 4 -->
+        <!-- Field 4: Scaling factor for final result -->
         <div class="row">
-          <label for="in4">Scaling factor for final result (in millimeters)</label>
-          <input id="in4" name="in4" type="number" inputmode="decimal" step="any" placeholder="Optional, e.g., 0" />
+          <label for="f4">Select scaling factor for final result (in millimeters)</label>
+          <select id="f4" name="f4">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2" selected>2</option>
+          </select>
         </div>
       </div>
 
       <div class="actions">
-        <button type="button" class="primary" id="btn-calc">CALCULATE</button>
+        <button type="button" class="primary" id="btn-calc">Calculate</button>
         <button type="reset" id="btn-reset" title="Clear all inputs">Clear</button>
         <button type="button" id="btn-copy" title="Copy result">Copy Result</button>
         <button type="button" id="btn-link" title="Share pre-filled link">Share Link</button>
@@ -96,29 +98,19 @@
       <div class="out" role="status" aria-live="polite">
         <h2>Result</h2>
         <div id="result" style="font-size:1.2rem; font-weight:700">—</div>
-        <div id="interpretation" class="muted">Enter values and click CALCULATE.</div>
+        <div id="interpretation" class="muted">Enter values and click Calculate.</div>
       </div>
 
       <p id="helper" class="footer">
-        <strong>Disclaimer:</strong> This tool is for informational purposes and does not replace clinical judgment.
+        <strong>Note:</strong> Formula: <code>Result = (Field1 / Field2) * Field3 - Field4</code>. Values rounded to 2 decimals.
       </p>
     </form>
   </main>
 
   <script>
-    // Utility: read/write query params to allow sharable pre-filled links
+    // Query param keys for sharable links
+    const fields = ["f1","f2","f3","f4"];
     const qs = new URLSearchParams(location.search);
-    const fields = ["in1","in2","in3","in4"];
-
-    function getNums() {
-      const out = {};
-      for (const k of fields) {
-        const el = document.getElementById(k);
-        const v = el.value.trim();
-        out[k] = v === "" ? null : Number(v);
-      }
-      return out;
-    }
 
     function setFromQuery() {
       for (const k of fields) {
@@ -127,47 +119,45 @@
       }
     }
 
-    function updateQueryFromInputs() {
-      const params = new URLSearchParams();
-      for (const k of fields) {
-        const v = document.getElementById(k).value.trim();
-        if (v !== "") params.set(k, v);
-      }
-      history.replaceState(null, "", location.pathname + (params.toString() ? "?" + params.toString() : ""));
+    function getValues() {
+      const f1 = Number(document.getElementById("f1").value);
+      const f2raw = document.getElementById("f2").value.trim();
+      const f3raw = document.getElementById("f3").value.trim();
+      const f4 = Number(document.getElementById("f4").value);
+
+      const f2 = f2raw === "" ? null : Number(f2raw);
+      const f3 = f3raw === "" ? null : Number(f3raw);
+      return { f1, f2, f3, f4 };
     }
 
-    // Basic sanity checks (adjust if you prefer stricter ranges)
-    function validateRanges(values) {
-      const problems = [];
-      // All inputs are lengths (mm) and should be >= 0; in2 should not be 0 (division)
-      if (values.in1 !== null && values.in1 < 0) problems.push("Original nail diameter cannot be negative.");
-      if (values.in2 !== null && values.in2 <= 0) problems.push("X-rays nail diameter must be greater than 0.");
-      if (values.in3 !== null && values.in3 < 0) problems.push("X-rays distraction cannot be negative.");
-      if (values.in4 !== null && values.in4 < 0) problems.push("Scaling factor cannot be negative (use 0 if none).");
-      return problems;
+    function validate(values) {
+      const issues = [];
+      if (values.f2 === null || !(values.f2 > 0)) issues.push("XRays nail diameter must be a positive number.");
+      if (values.f2 !== null && values.f2 > 100) issues.push("XRays nail diameter cannot exceed 100 mm.");
+      if (values.f3 === null || !(values.f3 > 0)) issues.push("Distraction must be a positive number.");
+      if (values.f3 !== null && values.f3 > 500) issues.push("Distraction cannot exceed 500 mm.");
+      if (values.f2 === 0) issues.push("Division by zero: XRays nail diameter cannot be 0.");
+      return issues;
     }
 
-    // Calculation: Result = (Field1 / Field2) * Field3 - Field4
+    function round2(x) {
+      return Math.round((x + Number.EPSILON) * 100) / 100;
+    }
+
+    function format2(x) {
+      return new Intl.NumberFormat(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(x);
+    }
+
     function calculate(values) {
-      const { in1, in2, in3, in4 } = values;
-      if (in1 === null || in2 === null || in3 === null) {
-        return { ok:false, message:"Please fill the first three fields." };
-      }
-      if (in2 === 0) {
-        return { ok:false, message:"X-rays nail diameter cannot be 0." };
-      }
-      const scalar = in1 / in2;
-      const result = scalar * in3 - (in4 ?? 0);
-      return { ok:true, value: result, note: "" };
-    }
-
-    function formatNumber(x, decimals = 2) {
-      return new Intl.NumberFormat(undefined, { maximumFractionDigits: decimals, minimumFractionDigits: decimals }).format(x);
+      // Result = (Field1 / Field2) * Field3 - Field4
+      const { f1, f2, f3, f4 } = values;
+      const raw = (f1 / f2) * f3 - f4;
+      return round2(raw);
     }
 
     function onCalculate() {
-      const values = getNums();
-      const problems = validateRanges(values);
+      const values = getValues();
+      const problems = validate(values);
       const resultEl = document.getElementById("result");
       const interpEl = document.getElementById("interpretation");
 
@@ -178,21 +168,24 @@
       }
 
       const res = calculate(values);
-      if (!res.ok) {
-        resultEl.textContent = "—";
-        interpEl.textContent = res.message || "Unable to compute.";
-        return;
-      }
-
-      const decimals = 2; // keep 2 decimals (note removed from UI as requested)
-      resultEl.textContent = `${formatNumber(res.value, decimals)} mm`;
-      interpEl.textContent = res.note || "";
+      resultEl.textContent = format2(res) + " mm";
+      interpEl.textContent = `Using: ( ${values.f1} / ${format2(values.f2)} ) × ${format2(values.f3)} − ${values.f4}`;
     }
 
     function onCopy() {
       const txt = `Result: ${document.getElementById("result").textContent}\n` +
+                  `Details: ${document.getElementById("interpretation").textContent}\n` +
                   `Inputs: ` + fields.map(k => `${k}=${document.getElementById(k).value}`).join(", ");
       navigator.clipboard?.writeText(txt);
+    }
+
+    function updateQueryFromInputs() {
+      const params = new URLSearchParams();
+      for (const k of fields) {
+        const v = document.getElementById(k).value.trim?.() ?? document.getElementById(k).value;
+        if (v !== "") params.set(k, v);
+      }
+      history.replaceState(null, "", location.pathname + "?" + params.toString());
     }
 
     function onShareLink() {
@@ -209,11 +202,10 @@
     document.getElementById("btn-reset").addEventListener("click", () => {
       history.replaceState(null, "", location.pathname);
       document.getElementById("result").textContent = "—";
-      document.getElementById("interpretation").textContent = "Enter values and click CALCULATE.";
+      document.getElementById("interpretation").textContent = "Enter values and click Calculate.";
     });
 
-    // Prefill from URL if present
-    setFromQuery();
+    setFromQuery(); // prefill if URL has ?f1=...&f2=...&f3=...&f4=...
   </script>
 </body>
 </html>

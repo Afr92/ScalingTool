@@ -20,7 +20,7 @@
       border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:24px; box-shadow:0 20px 60px rgba(0,0,0,.35);
       backdrop-filter: blur(6px);
     }
-    h1{margin:0 0 8px; font-size:1.4rem}
+    h1{margin:0 0 8px; font-size:1.9rem; letter-spacing:.2px} /* Larger title font */
     p.sub{margin:0 0 20px; color:var(--muted); font-size:.95rem}
     .grid{display:grid; grid-template-columns:1fr 1fr; gap:14px}
     @media (max-width:640px){ .grid{grid-template-columns:1fr} }
@@ -52,7 +52,7 @@
   <main class="card" role="main" aria-labelledby="title">
     <h1 id="title">Scaling Tool</h1>
     <p class="sub">Real-life scaled dimensions from X-rays. Runs 100% locally in your browser.</p>
-    <p class="byline"><em>By Amed for Dr. Giotikas</em></p>
+    <p class="sub"><em>By Amed for Dr. Giotikas</em></p>
 
     <form id="calc-form" novalidate>
       <div class="grid" aria-describedby="helper">
